@@ -29,7 +29,6 @@ def ship(x, y):
 programrun = True
 while programrun:
     screen.fill((85, 56, 56))
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             programrun = False
@@ -39,6 +38,9 @@ while programrun:
                 shipX_move = -0.5
             if event.key == pygame.K_RIGHT:
                 shipX_move = 0.5
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 shipX_move = 0
