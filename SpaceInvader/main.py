@@ -1,38 +1,54 @@
 import pygame
-import pygame.freetype
-from pygame.sprite import Sprite
-from pygame.rect import Rect
 
-BLUE = (106, 159, 181)
-WHITE = (255, 255, 255)
+pygame.init()
 
-def create_surface(text, font_size, rgb, background_rgb):
-    font = pygame.freetype.SysFont("arial", font_size, bold=True)
-    surface, = font.render(text=text, fgcolor=rgb, backcolor=background_rgb)
-    return surface.convert_alpha()
+screen = pygame.display.set_mode((800, 600))
 
-class UIClass(Sprite):
-    def __init__(self, p_center, text, font_size, backcolor, textcolor):
-        self.mouse_over = False
-        default_img = create_surface(text, font_size, textcolor, backcolor)
-        highlight_img = create_surface(text, font_size*1.4, textcolor, backcolor)
+pygame.display.set_caption("CS361 Space Invaders")
+icons = pygame.image.load('alien.png')
+pygame.display.set_icon(icons)
 
-        self.images = [default_img, highlight_img]
-        self.rects = [default_img.get_rect(center=p_center), highlight_img.get_rect(center=p_center)]
+SpaceShip = pygame.image.load('space-invaders.png')
+SpaceShip = pygame.transform.scale(SpaceShip, (64, 64))
 
-    @property
-    def image(self):
-        return self.images[1] if self.mouse_over else self.images[0]
+shipX = 370
+shipY = 480
+shipX_move = 0
 
-    @property
-    def rect(self):
-        return self.rects[1] if self.mouse_over else self.rects[0]
+point_val = 0
+font = pygame.font.Font('freesansbold.ttf', 32)
 
-    def update(self, p_mouse):
-        if self.rect.collidepoint(p_mouse):
-            self.mouse_over = True
-        else:
-            self.mouse_over = False
+def show_point(x, y):
+    point = font.render("Score : " + str(point_val), True, (255, 255, 255))
+    screen.blit(point, (x, y))
 
-    def draw(self, surface):
-        surface.blit(self.images, self.rect)
+def ship(x, y):
+    screen.blit(SpaceShip, (x, y))
+
+
+programrun = True
+while programrun:
+    screen.fill((85, 56, 56))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            programrun = False
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                shipX_move = -0.5
+            if event.key == pygame.K_RIGHT:
+                shipX_move = 0.5
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                shipX_move = 0
+
+    shipX += shipX_move
+    if shipX <= 0:
+        shipX = 0
+    if shipX >= 736:
+        shipX = 736
+
+    ship(shipX, shipY)
+    show_point(10, 10)
+    pygame.display.update()
