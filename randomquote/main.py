@@ -17,9 +17,11 @@ while True:
         read_file.close()
 
         # overwrite start.txt file by choosing random line.
-        x = open('./start.txt', 'w')
-        x.write(random.choice(line))
-        x.close()
+        random_line = open('./start.txt', 'w')
+        random_line.write(random.choice(line))
+        random_line.close()
 
         time.sleep(3)
-        print('\nFile Overwritten! if different quote wanted type run in the start.txt file')
+        print('\nFile Overwritten! check start.txt to see your motivation code!')
+        print('\nif different quote wanted type run in the start.txt file')
+
