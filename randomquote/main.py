@@ -1,13 +1,15 @@
 import time
 import random
 
+#This will be shown in the command line
 print('If you want random motivational quote please type run in start.txt and save')
 
 while True:
-
+    #Open the start.txt and read for 'run'
     start_file = open('./start.txt', 'r')
     linecheck = start_file.readline()
     start_file.close()
+    #if 'run' was found start the process for random choosing
     if linecheck == 'run':
         print('Choosing random inspiration quote from file~')
 
